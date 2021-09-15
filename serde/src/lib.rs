@@ -221,8 +221,10 @@ mod lib {
     pub use std::io::Write;
     #[cfg(feature = "std")]
     pub use std::path::{Path, PathBuf};
-    #[cfg(feature = "std")]
+    #[cfg(all(feature = "std", not(target_env = "sgx")))]
     pub use std::sync::{Mutex, RwLock};
+    #[cfg(all(feature = "std", target_env = "sgx"))]
+    pub use std::sync::{SgxMutex as Mutex, SgxRwLock as RwLock};
     #[cfg(feature = "std")]
     pub use std::time::{SystemTime, UNIX_EPOCH};
 
